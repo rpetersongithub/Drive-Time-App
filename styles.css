@@ -1,0 +1,41 @@
+
+#mapid {
+  height: 1000px;
+  width: 100%;
+  /*background-color: black;
+  position: absolute;
+  top: 0px; */
+}
+
+
+#geocoder-container > div {
+  min-width:50%;
+  margin-left:25%;
+}
+
+.nav-wrapper{
+  margin-bottom: 0;
+  background-color:#012C60;
+}
+
+
+.geocoder-control-suggestions{
+  color: black;
+}
+
+a.brand-logo{
+  /* color: #FBB50F; */
+  margin-left: 8px;
+}
+
+input.geocoder-control-input{
+  background-color: white;
+}
+
+input#minutes{
+  color: white;
+}
+
+::placeholder{
+  color: #ffffff;
+}
