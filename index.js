@@ -3,6 +3,7 @@ var Esri = require('esri-leaflet');
 var Geocoding = require('esri-leaflet-geocoder');
 
 
+var port = process.env.PORT || 8080;
 
 const appId = 'QgyRoQRka2Np0Vche57G';
 const appCode = '10OTGaEMJpvS9YQDNS7Hfw';
