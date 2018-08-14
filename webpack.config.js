@@ -1,10 +1,17 @@
 var path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, './public/dist'),
     filename: 'bundle.js'
+  },
+  plugins:[
+    new Dotenv()
+  ],
+  node:{
+    fs: 'empty'
   },
   module:{
     rules:[

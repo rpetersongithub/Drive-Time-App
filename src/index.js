@@ -1,10 +1,8 @@
 var L = require('leaflet');
 var Esri = require('esri-leaflet');
 var Geocoding = require('esri-leaflet-geocoder');
+require('dotenv').config();
 
-
-const appId = 'QgyRoQRka2Np0Vche57G';
-const appCode = '10OTGaEMJpvS9YQDNS7Hfw';
 
 
 var map = L.map('mapid').setView([44.650478, -63.606300], 12);
@@ -15,8 +13,10 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   maxZoom: 18,
   id: 'mapbox.streets',
   detectRetina: true,
-  accessToken: 'pk.eyJ1Ijoicnlhbi1wZXRlcnNvbiIsImEiOiJjajVjenA0NGkwZm84MndwODBqZmhkN2E3In0.4MPMYn7GRyEUc1ggpepcSg'
+  accessToken: process.env.MAP_CODE
 }).addTo(map);
+
+
 
 var searchControl = Geocoding.geosearch().addTo(map);
 
@@ -26,9 +26,10 @@ searchControl.on('results', function(data){
   var coordinates = lat.toString() + "," +lon.toString();
   var timestamp = '2018-04-19T17:00:00-07'
   var minutes = document.getElementById("minutes").value;
-  var seconds = minutes*60;
+  var time = minutes * 60
 
-  fetch("https://isoline.route.cit.api.here.com/routing/7.2/calculateisoline.json?app_id=" + appId + "&app_code=" + appCode + "&mode=shortest;car;traffic:disabled&start=geo!" + coordinates + "&maxpoints=500&departure=" + timestamp + "&range=" + seconds + "&rangetype=time&jsonAttributes=41")
+
+  fetch("https://isoline.route.cit.api.here.com/routing/7.2/calculateisoline.json?app_id=" + process.env.APP_ID + "&app_code=" + process.env.APP_CODE + "&mode=shortest;car;traffic:disabled&start=geo!" + coordinates + "&maxpoints=500&departure=" + timestamp + "&range=" + time + "&rangetype=time&jsonAttributes=41")
   .then(res => res.json())
   .then(data => {
     var polygonArray = [];
