@@ -5,7 +5,7 @@ require('dotenv').config();
 
 
 
-var map = L.map('mapid').setView([44.650478, -63.606300], 12);
+var map = L.map('mapid').setView([45.480174, -122.693377], 12);
 
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
