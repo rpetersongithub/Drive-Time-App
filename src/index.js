@@ -29,7 +29,7 @@ searchControl.on('results', function(data){
   var time = minutes * 60
 
 
-  fetch("https://isoline.route.cit.api.here.com/routing/7.2/calculateisoline.json?app_id=" + process.env.APP_ID + "&app_code=" + process.env.APP_CODE + "&mode=shortest;car;traffic:disabled&start=geo!" + coordinates + "&maxpoints=500&departure=" + timestamp + "&range=" + time + "&rangetype=time&jsonAttributes=41")
+  fetch("https://isoline.route.cit.api.here.com/routing/7.2/calculateisoline.json?app_id=" + process.env.APP_ID + "&app_code=" + process.env.APP_CODE + "&mode=shortest;car;traffic:enabled&start=geo!" + coordinates + "&maxpoints=500&departure=" + timestamp + "&range=" + time + "&rangetype=time&jsonAttributes=41")
   .then(res => res.json())
   .then(data => {
     var polygonArray = [];
