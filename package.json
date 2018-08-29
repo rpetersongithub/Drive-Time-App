@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
     "esri-leaflet": "^2.2.2",
     "esri-leaflet-geocoder": "^2.2.13",

@@ -5,7 +5,7 @@ require('dotenv').config();
 
 
 
-var map = L.map('mapid').setView([44.650478, -63.606300], 12);
+var map = L.map('mapid').setView([45.480174, -122.693377], 12);
 
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -24,12 +24,12 @@ searchControl.on('results', function(data){
   var lat = data.results[0].latlng.lat;
   var lon = data.results[0].latlng.lng;
   var coordinates = lat.toString() + "," +lon.toString();
-  var timestamp = '2018-04-19T17:00:00-07'
+  var timestamp = '2018-08-28T17:00:00-07'
   var minutes = document.getElementById("minutes").value;
   var time = minutes * 60
 
 
-  fetch("https://isoline.route.cit.api.here.com/routing/7.2/calculateisoline.json?app_id=" + process.env.APP_ID + "&app_code=" + process.env.APP_CODE + "&mode=shortest;car;traffic:disabled&start=geo!" + coordinates + "&maxpoints=500&departure=" + timestamp + "&range=" + time + "&rangetype=time&jsonAttributes=41")
+  fetch("https://isoline.route.cit.api.here.com/routing/7.2/calculateisoline.json?app_id=" + process.env.APP_ID + "&app_code=" + process.env.APP_CODE + "&mode=shortest;car;traffic:enabled&start=geo!" + coordinates + "&maxpoints=500&departure=" + timestamp + "&range=" + time + "&rangetype=time&jsonAttributes=41")
   .then(res => res.json())
   .then(data => {
     var polygonArray = [];
