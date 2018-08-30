@@ -44,10 +44,10 @@ searchControl.on('results', function(data){
   var lat = data.results[0].latlng.lat;
   var lon = data.results[0].latlng.lng;
   var coordinates = lat.toString() + "," +lon.toString();
-  var timestamp = '2018-08-28T17:00:00-07'
+  //var timestamp = '2018-08-28T17:00:00-07'
   var minutes = document.getElementById("minutes").value;
   var d = document.getElementById("time").value;
-  console.log(d);
+  var timestamp = today+d+":00"+"-"+timeZone;
   var time = minutes * 60
 
 
