@@ -36,6 +36,12 @@ input#minutes{
   color: white;
 }
 
+input#time{
+  color: white;
+  margin-right: 5px;
+}
+
+
 ::placeholder{
   color: #ffffff;
 }
