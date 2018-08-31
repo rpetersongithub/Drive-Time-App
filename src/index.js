@@ -1,6 +1,7 @@
 var L = require('leaflet');
 var Esri = require('esri-leaflet');
 var Geocoding = require('esri-leaflet-geocoder');
+var moment = require('moment');
 require('dotenv').config();
 
 
@@ -16,7 +17,26 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   accessToken: process.env.MAP_CODE
 }).addTo(map);
 
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1;
+var yyyy = today.getFullYear();
+var timeZone = today.getTimezoneOffset()/60;
 
+
+if(dd < 10){
+  dd = '0'+ dd;
+}
+
+if(mm < 10){
+  mm = '0' + mm;
+}
+
+if(timeZone < 10){
+  timeZone = '0' + timeZone;
+}
+
+today = yyyy + '-' + mm + '-' + dd + 'T';
 
 var searchControl = Geocoding.geosearch().addTo(map);
 
@@ -24,8 +44,13 @@ searchControl.on('results', function(data){
   var lat = data.results[0].latlng.lat;
   var lon = data.results[0].latlng.lng;
   var coordinates = lat.toString() + "," +lon.toString();
-  var timestamp = '2018-04-19T17:00:00-07'
+  //var timestamp = '2018-08-28T17:00:00-07'
   var minutes = document.getElementById("minutes").value;
+  var d = document.getElementById("time").value;
+  if (d === "") {
+    d = "12:00";
+  }
+  var timestamp = today+d+":00"+"-"+timeZone;
   var time = minutes * 60
 
 
