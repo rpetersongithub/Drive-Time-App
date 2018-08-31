@@ -53,7 +53,7 @@ searchControl.on('results', function(data){
   var timestamp = today+d+":00"+"-"+timeZone;
   var time = minutes * 60
 
-
+  L.marker([lat,lon]).addTo(map);
   fetch("https://isoline.route.cit.api.here.com/routing/7.2/calculateisoline.json?app_id=" + process.env.APP_ID + "&app_code=" + process.env.APP_CODE + "&mode=shortest;car;traffic:enabled&start=geo!" + coordinates + "&maxpoints=500&departure=" + timestamp + "&range=" + time + "&rangetype=time&jsonAttributes=41")
   .then(res => res.json())
   .then(data => {
