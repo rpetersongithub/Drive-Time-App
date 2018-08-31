@@ -15,10 +15,10 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
-app.post('/', function(req, res){
-  console.log(req.body.min);
-  res.render('index');
-})
+// app.post('/', function(req, res){
+//   console.log(req.body.min);
+//   res.render('index');
+// })
 
 app.listen(port, function() {
     console.log('App is running on http://localhost:' + port);

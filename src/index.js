@@ -47,6 +47,9 @@ searchControl.on('results', function(data){
   //var timestamp = '2018-08-28T17:00:00-07'
   var minutes = document.getElementById("minutes").value;
   var d = document.getElementById("time").value;
+  if (d === "") {
+    d = "12:00";
+  }
   var timestamp = today+d+":00"+"-"+timeZone;
   var time = minutes * 60
 
