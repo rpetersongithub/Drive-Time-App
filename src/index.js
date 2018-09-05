@@ -99,10 +99,17 @@ searchControl.on('results', function(data){
   });
 
   document.getElementById('export').onclick = function(e){
-
-    var data = userIsochrones.toGeoJSON();
-    var toExport = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data));
-
+    var exportGroup = L.layerGroup();
+    var toExport;
+    map.eachLayer(function(layer){
+      if(layer == mapTiles || layer ==  userMarker){
+        console.log('nothing');
+      } else{
+        exportGroup.addLayer(layer);
+        var data = exportGroup.toGeoJSON();
+        toExport = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data));
+      }
+    });
     document.getElementById('export').setAttribute('href', 'data:'+ toExport);
     document.getElementById('export').setAttribute('download', 'isochrones.geojson');
   };
