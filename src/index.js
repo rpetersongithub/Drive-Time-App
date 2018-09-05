@@ -6,7 +6,7 @@ require('dotenv').config();
 
 
 
-var map = L.map('mapid').setView([45.480174, -122.693377], 12);
+var map = L.map('mapid').setView([45.480174, -122.693377], 13);
 
 
 var mapTiles = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -62,71 +62,42 @@ function getPolygons(coordinates, timestamp, time){
   });
 }
 
+function getMinutes(){
+  var minutes = document.getElementById("minutes").value;
+  var seconds = minutes * 60;
+  return seconds;
+}
+
 searchControl.on('results', function(data){
   var lat = data.results[0].latlng.lat;
   var lon = data.results[0].latlng.lng;
   var coordinates = lat.toString() + "," +lon.toString();
-  //var timestamp = '2018-08-28T17:00:00-07'
-  var minutes = document.getElementById("minutes").value;
+  //var minutes = document.getElementById("minutes").value;
   var d = document.getElementById("time").value;
   if (d === "") {
     d = "12:00";
   }
   var timestamp = today+d+":00"+"-"+timeZone;
-  var time = minutes * 60;
+  var minutes = getMinutes();
+  //var seconds = minutes * 60;
 
   var userMarker = L.marker([lat,lon],{
     draggable: true,
     autoPan: true
   });
 
-  getPolygons(coordinates, timestamp, time);
+  getPolygons(coordinates, timestamp, minutes);
   userMarker.addTo(map);
 
-  // fetch("https://isoline.route.cit.api.here.com/routing/7.2/calculateisoline.json?app_id=" + process.env.APP_ID + "&app_code=" + process.env.APP_CODE + "&mode=shortest;car;traffic:enabled&start=geo!" + coordinates + "&maxpoints=500&departure=" + timestamp + "&range=" + time + "&rangetype=time&jsonAttributes=41")
-  // .then(res => res.json())
-  // .then(data => {
-  //   var polygonArray = [];
-  //   for(var i = 0; i < 1; i++){
-  //     for(var x = 0; x <= data.response.isoline[i].component[0].shape.length - 1; x++){
-  //       if(x % 2 === 0){
-  //         var coordPair = [];
-  //         coordPair.push(data.response.isoline[i].component[0].shape[x]);
-  //         coordPair.push(data.response.isoline[i].component[0].shape[x + 1]);
-  //         polygonArray.push(coordPair);
-  //       }
-  //     }
-  //   }
-  //   var isochrones = L.polygon(polygonArray).addTo(map);
-  //   document.getElementById('clear').onclick = function(e){
-  //     map.removeLayer(isochrones);
-  //   }
-  //   document.getElementById('export').onclick = function(e){
-  //
-  //   var data = isochrones.toGeoJSON();
-  //   var toExport = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data));
-  //
-  //   document.getElementById('export').setAttribute('href', 'data:'+ toExport);
-  //   document.getElementById('export').setAttribute('download', 'isochrones.geojson');
-  //   }
-  // });
   userMarker.on('moveend',function(e){
+    var newMinutes = getMinutes();
     var coords = userMarker.getLatLng();
     var newLat = coords.lat;
     var newLng = coords.lng;
     var newCoords = newLat + "," + newLng;
-    console.log(newCoords);
-    getPolygons(newCoords, timestamp, time);
+    getPolygons(newCoords, timestamp, newMinutes);
   });
-  document.getElementById('clear').onclick = function(e){
-    map.eachLayer(function(layer){
-      if(layer == mapTiles){
-        console.log("hello");
-      } else{
-        map.removeLayer(layer);  
-      }
-    });
-  };
+
   document.getElementById('export').onclick = function(e){
 
     var data = userIsochrones.toGeoJSON();
@@ -136,3 +107,13 @@ searchControl.on('results', function(data){
     document.getElementById('export').setAttribute('download', 'isochrones.geojson');
   };
 });
+
+document.getElementById('clear').onclick = function(e){
+  map.eachLayer(function(layer){
+    if(layer == mapTiles){
+      console.log("hello");
+    } else{
+      map.removeLayer(layer);
+    }
+  });
+};
