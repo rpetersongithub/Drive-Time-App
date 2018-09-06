@@ -83,7 +83,6 @@ searchControl.on('results', function(data){
   var day = getDay();
   var timestamp = day+time+":00";
   var minutes = getMinutes();
-  //var seconds = minutes * 60;
 
   var userMarker = L.marker([lat,lon],{
     draggable: true,
