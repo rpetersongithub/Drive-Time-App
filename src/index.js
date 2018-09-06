@@ -18,29 +18,9 @@ var mapTiles = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png
   });
 
 mapTiles.addTo(map);
-
-var today = new Date();
-var dd = today.getDate();
-var mm = today.getMonth()+1;
-var yyyy = today.getFullYear();
-var timeZone = today.getTimezoneOffset()/60;
-
-
-if(dd < 10){
-  dd = '0'+ dd;
-}
-
-if(mm < 10){
-  mm = '0' + mm;
-}
-
-if(timeZone < 10){
-  timeZone = '0' + timeZone;
-}
-
-today = yyyy + '-' + mm + '-' + dd + 'T';
-
 var searchControl = Geocoding.geosearch().addTo(map);
+
+
 
 function getPolygons(coordinates, timestamp, time){
   fetch("https://isoline.route.cit.api.here.com/routing/7.2/calculateisoline.json?app_id=" + process.env.APP_ID + "&app_code=" + process.env.APP_CODE + "&mode=shortest;car;traffic:enabled&start=geo!" + coordinates + "&maxpoints=500&departure=" + timestamp + "&range=" + time + "&rangetype=time&jsonAttributes=41")
@@ -62,22 +42,46 @@ function getPolygons(coordinates, timestamp, time){
   });
 }
 
+function getDay(){
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1;
+  var yyyy = today.getFullYear();
+
+  if(dd < 10){
+    dd = '0'+ dd;
+  }
+
+  if(mm < 10){
+    mm = '0' + mm;
+  }
+
+  today = yyyy + '-' + mm + '-' + dd + 'T';
+  return today;
+}
+
+
 function getMinutes(){
   var minutes = document.getElementById("minutes").value;
   var seconds = minutes * 60;
   return seconds;
 }
 
+function getTime(){
+  var time = document.getElementById("time").value;
+  if (time === "") {
+    time = "12:00";
+  }
+  return time;
+}
+
 searchControl.on('results', function(data){
   var lat = data.results[0].latlng.lat;
   var lon = data.results[0].latlng.lng;
   var coordinates = lat.toString() + "," +lon.toString();
-  //var minutes = document.getElementById("minutes").value;
-  var d = document.getElementById("time").value;
-  if (d === "") {
-    d = "12:00";
-  }
-  var timestamp = today+d+":00"+"-"+timeZone;
+  var time = getTime();
+  var day = getDay();
+  var timestamp = day+time+":00";
   var minutes = getMinutes();
   //var seconds = minutes * 60;
 
@@ -91,29 +95,33 @@ searchControl.on('results', function(data){
 
   userMarker.on('moveend',function(e){
     var newMinutes = getMinutes();
+    var newDay = getDay();
+    var newTime = getTime();
+    var newTimestamp = newDay+newTime+":00";
     var coords = userMarker.getLatLng();
     var newLat = coords.lat;
     var newLng = coords.lng;
     var newCoords = newLat + "," + newLng;
-    getPolygons(newCoords, timestamp, newMinutes);
+    getPolygons(newCoords, newTimestamp, newMinutes);
   });
 
-  document.getElementById('export').onclick = function(e){
-    var exportGroup = L.layerGroup();
-    var toExport;
-    map.eachLayer(function(layer){
-      if(layer == mapTiles || layer ==  userMarker){
-        console.log('nothing');
-      } else{
-        exportGroup.addLayer(layer);
-        var data = exportGroup.toGeoJSON();
-        toExport = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data));
-      }
-    });
-    document.getElementById('export').setAttribute('href', 'data:'+ toExport);
-    document.getElementById('export').setAttribute('download', 'isochrones.geojson');
-  };
 });
+
+document.getElementById('export').onclick = function(e){
+  var exportGroup = L.layerGroup();
+  var toExport;
+  map.eachLayer(function(layer){
+    if(layer == mapTiles || layer ==  userMarker){
+      console.log('nothing');
+    } else{
+      exportGroup.addLayer(layer);
+      var data = exportGroup.toGeoJSON();
+      toExport = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data));
+    }
+  });
+  document.getElementById('export').setAttribute('href', 'data:'+ toExport);
+  document.getElementById('export').setAttribute('download', 'isochrones.geojson');
+};
 
 document.getElementById('clear').onclick = function(e){
   map.eachLayer(function(layer){
