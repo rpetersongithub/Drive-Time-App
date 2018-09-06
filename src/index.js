@@ -2,11 +2,11 @@ var L = require('leaflet');
 var Esri = require('esri-leaflet');
 var Geocoding = require('esri-leaflet-geocoder');
 var moment = require('moment');
+var locate = require('leaflet.locatecontrol');
 require('dotenv').config();
 
 
-
-var map = L.map('mapid').setView([45.480174, -122.693377], 13);
+var map = L.map('mapid').setView([38.850608, -98.470158], 5);
 
 
 var mapTiles = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -18,6 +18,8 @@ var mapTiles = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png
   });
 
 mapTiles.addTo(map);
+var lc = L.control.locate().addTo(map);
+//lc.start();
 var searchControl = Geocoding.geosearch().addTo(map);
 
 
