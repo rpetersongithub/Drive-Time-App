@@ -112,7 +112,7 @@ document.getElementById('export').onclick = function(e){
   var exportGroup = L.layerGroup();
   var toExport;
   map.eachLayer(function(layer){
-    if(layer == mapTiles || layer ==  userMarker){
+    if(layer == mapTiles){
       console.log('nothing');
     } else{
       exportGroup.addLayer(layer);
