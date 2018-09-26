@@ -6,7 +6,7 @@ var locate = require('leaflet.locatecontrol');
 require('dotenv').config();
 
 
-var map = L.map('mapid').setView([38.850608, -98.470158], 5);
+
 
 
 var mapTiles = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -17,9 +17,29 @@ var mapTiles = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png
     accessToken: process.env.MAP_CODE
   });
 
-mapTiles.addTo(map);
+var mapSatellite = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox.satellite',
+    detectRetina: true,
+    accessToken: process.env.MAP_CODE
+  });
+
+var map = L.map('mapid',{
+  center: [38.850608, -98.470158],
+  zoom: 5,
+  layers: [mapTiles, mapSatellite]
+});
+
+var baseLayers = {
+  "Satellie": mapSatellite,
+  "Street": mapTiles
+};
+
+//mapTiles.addTo(map);
+L.control.layers(baseLayers).addTo(map);
 var lc = L.control.locate().addTo(map);
-//lc.start();
+
 var searchControl = Geocoding.geosearch().addTo(map);
 
 
@@ -113,7 +133,7 @@ document.getElementById('export').onclick = function(e){
   var exportGroup = L.layerGroup();
   var toExport;
   map.eachLayer(function(layer){
-    if(layer == mapTiles || layer ==  userMarker){
+    if(layer == mapTiles || layer ==  userMarker || layer == mapSatellite){
       console.log('nothing');
     } else{
       exportGroup.addLayer(layer);
@@ -127,7 +147,7 @@ document.getElementById('export').onclick = function(e){
 
 document.getElementById('clear').onclick = function(e){
   map.eachLayer(function(layer){
-    if(layer == mapTiles){
+    if(layer == mapTiles || layer == mapSatellite){
       console.log("hello");
     } else{
       map.removeLayer(layer);
