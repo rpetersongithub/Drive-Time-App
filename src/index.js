@@ -32,7 +32,7 @@ var map = L.map('mapid',{
 });
 
 var baseLayers = {
-  "Satellie": mapSatellite,
+  "Satellite": mapSatellite,
   "Street": mapTiles
 };
 
