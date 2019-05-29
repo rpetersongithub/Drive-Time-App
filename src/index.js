@@ -45,7 +45,8 @@ var searchControl = Geocoding.geosearch().addTo(map);
 
 
 function getPolygons(coordinates, timestamp, time){
-  fetch("https://isoline.route.cit.api.here.com/routing/7.2/calculateisoline.json?app_id=" + process.env.APP_ID + "&app_code=" + process.env.APP_CODE + "&mode=shortest;car;traffic:enabled&start=geo!" + coordinates + "&maxpoints=500&departure=" + timestamp + "&range=" + time + "&rangetype=time&jsonAttributes=41")
+  var targetURL = "https://isoline.route.cit.api.here.com/routing/7.2/calculateisoline.json?app_id=o5JGlnCPG1Wj8eWdkUSA" + "&app_code=OTMOT_wz2lFcs3LSIrKTRg" + "&mode=shortest;car;traffic:enabled&start=geo!" + coordinates + "&maxpoints=500&departure=" + timestamp + "&range=" + time + "&rangetype=time&jsonAttributes=41"
+  fetch(targetURL)
   .then(res => res.json())
   .then(data => {
     var polygonArray = [];

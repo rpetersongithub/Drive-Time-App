@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Drive Time App</title>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="https://releases.route360.net/r360-js/latest.js"></script>
+    <script src="build/js/vendor.min.js"></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.css' type='text/css' />
+    <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/darkly/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-primary">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Matrix Response Time Model</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a href="#" id="export">Export</a></li>
+        </ul>
+        <form id="time-band1" class="form-inline my-2 my-lg-0">
+          <label>Second Contour</label>
+          <input id="time-input" class="form-control mr-sm-2" placeholder="Minutes" type="number">
+          <button class="btn btn-info btn-sm" type="submit">Enter</button>
+        </form>
+     </div>
+   </nav>
+   <div class="container-fluid">
+     <div class="row">
+       <div class="col-lg">
+         <div id="map"></div>
+       </div>
+     </div>
+   </div>
+  </body>
+  <script src="build/js/app.js"></script>
+</html>
