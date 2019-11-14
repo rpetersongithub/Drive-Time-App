@@ -45,7 +45,7 @@ var searchControl = Geocoding.geosearch().addTo(map);
 
 
 function getPolygons(coordinates, timestamp, time){
-  var targetURL = "https://isoline.route.cit.api.here.com/routing/7.2/calculateisoline.json?app_id=o5JGlnCPG1Wj8eWdkUSA" + "&app_code=OTMOT_wz2lFcs3LSIrKTRg" + "&mode=shortest;car;traffic:enabled&start=geo!" + coordinates + "&maxpoints=500&departure=" + timestamp + "&range=" + time + "&rangetype=time&jsonAttributes=41"
+  var targetURL = "https://isoline.route.cit.api.here.com/routing/7.2/calculateisoline.json?app_id=" + process.env.APP_ID + "&app_code=" + process.env.APP_CODE + "&mode=shortest;car;traffic:enabled&start=geo!" + coordinates + "&maxpoints=500&departure=" + timestamp + "&range=" + time + "&rangetype=time&jsonAttributes=41"
   fetch(targetURL)
   .then(res => res.json())
   .then(data => {
@@ -61,6 +61,8 @@ function getPolygons(coordinates, timestamp, time){
       }
     }
     var isochrones = L.polygon(polygonArray);
+    isochrones.staff = 2;
+    console.log(isochrones.staff);
     isochrones.addTo(map);
   });
 }
@@ -154,3 +156,31 @@ document.getElementById('clear').onclick = function(e){
     }
   });
 };
+
+
+function onChange(event) {
+        var reader = new FileReader();
+        reader.onload = onReaderLoad;
+        reader.readAsText(event.target.files[0]);
+};
+
+function onReaderLoad(event){
+    var geoData = JSON.parse(event.target.result);
+    var locations = geoData.features.map(function(cfs) {
+      // the heatmap plugin wants an array of each location
+      var location = cfs.geometry.coordinates.reverse();
+      location.push(0.5);
+      return location; // e.g. [50.5, 30.5, 0.2], // lat, lng, intensity
+    });
+
+    var heat = L.heatLayer(locations, {
+      radius: 25,
+      blur: 15,
+      minOpacity: 0.5,
+      gradient: {0.2:'#a4a4a4', 0.4: '#f5ea66', 0.65: '#fecd6e', 0.9: '#e58054', 1: '#b14e50'}
+      });
+    map.addLayer(heat);
+
+};
+
+document.getElementById('input').addEventListener('change', onChange);
