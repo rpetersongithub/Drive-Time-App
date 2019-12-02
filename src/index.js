@@ -162,6 +162,7 @@ function onChange(event) {
         var reader = new FileReader();
         reader.onload = onReaderLoad;
         reader.readAsText(event.target.files[0]);
+        document.getElementById('input').value = ""
 };
 
 function onReaderLoad(event){
@@ -174,10 +175,10 @@ function onReaderLoad(event){
     });
 
     var heat = L.heatLayer(locations, {
-      radius: 25,
+      radius: 20,
       blur: 15,
       minOpacity: 0.5,
-      gradient: {0.2:'#a4a4a4', 0.4: '#f5ea66', 0.65: '#fecd6e', 0.9: '#e58054', 1: '#b14e50'}
+      gradient: {0.2:'#a4a4a4', 0.4: '#f5ea66', 0.6: '#fecd6e', 0.8: '#e58054', 1: '#b14e50'}
       });
     map.addLayer(heat);
 
