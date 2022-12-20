@@ -12,29 +12,38 @@ require('dotenv').config();
 var mapTiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18,
-    id: 'mapbox/streets-v11',
+    id: 'mapbox/streets-v12',
     detectRetina: true,
+    tileSize: 512,
+    zoomOffset: -1,
     accessToken: process.env.MAP_CODE
   });
 
-var mapSatellite = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox.satellite',
-    detectRetina: true,
-    accessToken: process.env.MAP_CODE
-  });
+// var mapStamenTiles = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg',{
+//   attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+//   maxZoom: 18,
+//   detectRetina: true
+// });
+
+// var mapSatellite = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+//     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+//     maxZoom: 18,
+//     id: 'mapbox.satellite',
+//     detectRetina: true,
+//     accessToken: process.env.MAP_CODE
+//   });
 
 var map = L.map('mapid',{
   center: [38.850608, -98.470158],
   zoom: 5,
-  layers: [mapTiles, mapSatellite]
+  layers: [mapTiles]
 });
 
-var baseLayers = {
-  "Satellite": mapSatellite,
-  "Street": mapTiles
-};
+// var baseLayers = {
+//   "Satellite": mapSatellite,
+//   "Street": mapTiles,
+//   "Stamen": mapStamenTiles
+// };
 
 //mapTiles.addTo(map);
 L.control.layers(baseLayers).addTo(map);
