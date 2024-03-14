@@ -8,5 +8,5 @@ Hit clear to delete the current polygons\
 Hit export to download the polygons\
 \
 \
-src/index.js is the main script that runs the application
+src/index.js is the main script that runs the application\
 https://mysterious-island-60482.herokuapp.com/
