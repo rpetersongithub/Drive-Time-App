@@ -7,4 +7,6 @@ You can grab the marker and place it in a new location to generate a new polygon
 Hit clear to delete the current polygons\
 Hit export to download the polygons\
 \
+\
+src/index.js is the main script that runs the application
 https://mysterious-island-60482.herokuapp.com/
